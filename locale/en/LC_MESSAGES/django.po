@@ -1,0 +1,78 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-12 18:42+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: .\otzivi\settings.py:34
+msgid "English"
+msgstr ""
+
+#: .\otzivi\settings.py:35
+msgid "Russian"
+msgstr ""
+
+# locale/en/LC_MESSAGES/django.po
+msgid "Проверьте услугу или компанию:"
+msgstr "Check service or company:"
+
+msgid "Оставьте отзыв"
+msgstr "Leave review"
+
+msgid "Отзывы"
+msgstr "Reviews"
+
+msgid "Личный кабинет"
+msgstr "Account"
+
+msgid "Войти"
+msgstr "Login"
+
+msgid "Зарегистрироваться"
+msgstr "Register"
+
+msgid "Рейтинг компаний"
+msgstr "Company Ratings"
+
+msgid "Пожалуйста, войдите в систему, чтобы оставить отзыв"
+msgstr "Please, login in system or register, to leave a review."
+
+msgid "Войти или Зарегистрироваться"
+msgstr "Login or Register"
+
+msgid "Отзывы о компаниях, сервисах, продуктах"
+msgstr "Reviews about companies and services"
+
+msgid "Имя пользователя"
+msgstr "USERNAME"
+
+msgid "Пароль"
+msgstr "Password"
+
+msgid "Подтвердить"
+msgstr "SUBMIT"
+
+msgid "Забыли пароль?"
+msgstr "Forgot your password?"
+
+msgid "Введите пароль"
+msgstr "Enter your password"
+
+msgid "Введите имя пользователя"
+msgstr "Enter your username"
+
+msgid "Выход"
+msgstr "Exit"

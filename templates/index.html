@@ -1,0 +1,507 @@
+<!-- templates/index.html -->
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="{% get_current_language as LANGUAGE_CODE %}{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% trans "Reviews" %}</title>
+    {% load static i18n %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+     
+        body {
+            min-height: 100vh;
+            background: linear-gradient(to bottom, black, darkgray);
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: backgroundFade 115s infinite;
+        }
+
+        .header {
+            margin-bottom: 2%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            height: 300px;
+        }
+
+        .logo, .logo-reflection {
+            font-size: 300px;
+            font-weight: bold;
+            color: #00ff00;
+            text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.2), 0 20px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .logo-reflection {
+            color: #00ffff;
+            transform: rotateY(180deg);
+        }
+
+        .logo-container:hover .logo {
+            transform: rotate(360deg);
+        }
+
+        .logo-container:hover .logo-reflection {
+            transform: rotate(-360deg);
+        }
+
+        .search-bar-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            position: sticky;
+            top: 0;
+            background-color: transparent;
+            z-index: 1000;
+            padding: 10px 0;
+            margin-bottom: 20px; /* Добавлено для отступа от логотипа */
+        }
+
+        .search-bar {
+            width: 50%;
+            max-width: 600px;
+            height: 45px;
+            border-radius: 25px;
+            border: 2px double #00ff00;
+            background-color: white;
+            padding: 10px 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            transition: all 0.3s ease;
+            color: black; /* Добавлено для изменения цвета текста */
+        }
+
+        .search-bar:focus {
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+            outline: none; /* Убедимся, что фокус виден */
+        }
+
+        .reviews-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .review {
+            background: white;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: calc(33.333% - 20px);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .review img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+            border-radius: 5px;
+            display: none; /* Initially hidden */
+        }
+
+        .modal-body img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        .review h3 {
+            margin: 0 0 10px;
+            font-size: 18px;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .review p {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+            flex-grow: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .sidebar {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+        }
+
+        .sidebar h2 {
+            font-size: 24px;
+            color: #00ff00;
+            margin-bottom: 20px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            font-size: 18px;
+            margin-bottom: 10px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            color: #00ff00;
+        }
+        .opinion {
+            font-size: 18px;
+            color: rgb(255, 255, 255);
+        }
+        .modal-content {
+            border-radius: 10px;
+            overflow: hidden;
+            transform: scale(0.7);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .modal.fade .modal-dialog {
+            transform: rotateY(180deg);
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .modal.show .modal-dialog {
+            transform: rotateY(0deg);
+        }
+        #reviewModal .modal-dialog {
+            max-width: 800px; /* Устанавливаем максимальную ширину модального окна */
+            margin: 130px auto; /* Центрируем модальное окно */
+        }
+
+        #reviewModal .modal-content {
+            height: 600px; /* Устанавливаем высоту содержимого модального окна */
+            display: flex;
+            flex-direction: column; /* Организуем содержимое модального окна в столбец */
+        }
+        .modal-header {
+            background-color: #00ff00;
+            color: white;
+        }
+
+        .modal-body {
+            background-color: #f9f9f9;
+        }
+        .user-name {
+            color: #00ffff;
+        }
+        .language-switcher {
+            position: absolute; /* Позиционируем относительно родителя */
+            top: 10px; /* Отступ сверху */
+            right: 10px; /* Отступ справа */
+        }
+
+        .language-switcher ul {
+            list-style: none; /* Убираем маркеры списка */
+            margin: 0;
+            padding: 0;
+        }
+
+        .language-switcher li {
+            display: inline-block; /* Располагаем флаги в строку */
+            margin-left: 10px; /* Отступ между флагами */
+        }
+
+        .language-switcher img {
+            width: 30px; /* Устанавливаем ширину флагов */
+            height: auto; /* Высота подстраивается автоматически */
+        }
+        @keyframes backgroundFade {
+            0%, 100% { background: linear-gradient(to bottom, darkgray, black, darkgray); }
+            50% { background: linear-gradient(to bottom, black, darkgray, black); }
+        }
+      
+      
+        @media (max-width: 768px) {
+            .review {
+                width: calc(50% - 20px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .review {
+                width: calc(100% - 20px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- templates/index.html -->
+
+    <div class="header">
+        <div class="logo-container">
+            <div class="logo-reflection">R</div>
+            <div class="logo">R</div> 
+        </div>
+        <div class="sidebar">
+            <h2>{% trans "Reviews" %}</h2>
+            {% if user.is_authenticated %}
+                <p class="user-name">{{ user.username }}</p>
+                <a href="{% url 'profile' user.username %}">{% trans "Account" %}</a>
+                <a href="" id="logout-button">{% trans "Exit" %}</a>
+            {% else %}
+                <a href="{% url 'login' %}">{% trans "Login" %}</a>
+                <a href="{% url 'register' %}">{% trans "Register" %}</a>
+            {% endif %}
+            <a href="{% url 'company_ratings' %}">{% trans "Company Ratings" %}</a>
+        </div>
+    </div>
+    <div class="opinion">{% trans "Check service or company:" %}</div>
+    <div class="search-bar-container">
+        <input type="text" class="search-bar" placeholder="{% trans "Search services..." %}" id="search-bar"> 
+    </div>
+    <div class="reviews-container" id="reviews-container">
+        <!-- Reviews will be loaded here -->
+    </div>
+    {% if user.is_authenticated %}
+        <a href="{% url 'add_review' %}" class="add-review">{% trans "Leave review" %}</a>
+    {% else %}
+        <a href="#" data-toggle="modal" data-target="#authModal" class="add-review">{% trans "Leave review" %}</a>
+    {% endif %}
+
+    <!-- Модальное окно -->
+    <div class="modal fade" id="authModal" tabindex="-1" role="dialog" aria-labelledby="authModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="authModalLabel">{% trans "Login or Register" %}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>{% trans "Please, login in system or register, to leave a review." %}</p>
+                    <a href="{% url 'login' %}" class="btn btn-primary gradient-text">{% trans "Login" %}</a>
+                    <a href="{% url 'register' %}" class="btn btn-secondary gradient-text">{% trans "Register" %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для отображения отзыва -->
+    <div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reviewModalLabel">{% trans "Review" %}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h3 id="modal-author"></h3>
+                    <p id="modal-text"></p>
+                    <p><strong>{% trans "Service:" %}</strong> <span id="modal-service"></span></p>
+                    <p><strong>{% trans "Rating:" %}</strong> <span id="modal-rating"></span></p>
+                    <img id="modal-image" src="" alt="{% trans "Review Image" %}" style="display: none; max-width: 100%; height: auto; margin-top: 10px; border-radius: 5px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- <div class="language-switcher">
+        {% if CURRENT_LANGUAGE != 'en' %}
+            <li>
+            <a href="{% url 'set_language' %}?language=en" class="language-en">
+                <img src="{% static 'images/flags/uk.png' %}" alt="English Flag" />
+            </a>
+            </li>
+        {% endif %}
+        {% if CURRENT_LANGUAGE != 'ru' %}
+            <li>
+            <a href="{% url 'set_language' %}?language=ru" class="language-ru">
+                <img src="{% static 'images/flags/ru.png' %}" alt="Russian Flag" />
+            </a>
+            </li>
+        {% endif %}
+    </div> -->
+  {% load static %}
+  <div class="language-switcher">
+    <ul>
+      {% get_current_language as CURRENT_LANGUAGE %}
+  
+      <li>
+        <a href="{% url 'set_language' %}?language=en" class="language-en">
+          <img src="{% static 'images/flags/uk.png' %}" alt="English Flag" />
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'set_language' %}?language=ru" class="language-ru">
+          <img src="{% static 'images/flags/ru.png' %}" alt="Russian Flag" />
+        </a>
+      </li>
+  
+    </ul>
+  </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const reviewsContainer = document.getElementById('reviews-container');
+            let offset = 0;
+            const limit = 8;
+            let isLoading = false;
+
+            function loadMoreReviews(reset = false) {
+                if (isLoading) return;
+                isLoading = true;
+
+                if (reset) {
+                    offset = 0;
+                    reviewsContainer.innerHTML = '';
+                }
+
+                fetch(`/api/load_more_reviews/?offset=${offset}&limit=${limit}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.reviews.length === 0 && !reset) {
+                            // No more reviews to load
+                            window.removeEventListener('scroll', handleScroll);
+                            return;
+                        }
+
+                        data.reviews.forEach(review => {
+                            const reviewElement = document.createElement('div');
+                            reviewElement.classList.add('review');
+                            reviewElement.innerHTML = `
+                                <h3>${review.author}</h3>
+                                <p>${review.text}</p>
+                                <p><strong>{% trans "Service:" %}</strong> ${review.service}</p>
+                                <p><strong>{% trans "Rating:" %}</strong> ${review.rating}</p>
+                            `;
+                            reviewElement.addEventListener('click', () => {
+                                document.getElementById('modal-author').innerText = review.author;
+                                document.getElementById('modal-text').innerText = review.text;
+                                document.getElementById('modal-service').innerText = review.service;
+                                document.getElementById('modal-rating').innerText = review.rating;
+                                const modalImage = document.getElementById('modal-image');
+                                if (review.image) {
+                                    modalImage.src = review.image;
+                                    modalImage.style.display = 'block';
+                                } else {
+                                    modalImage.style.display = 'none';
+                                }
+                                $('#reviewModal').modal('show');
+                            });
+                            reviewsContainer.appendChild(reviewElement);
+                        });
+                        offset += limit;
+                        isLoading = false;
+                    })
+                    .catch(() => {
+                        isLoading = false;
+                    });
+            }
+
+            function handleScroll() {
+                if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+                    loadMoreReviews();
+                }
+            }
+
+            function searchReviews(query) {
+                fetch(`/api/search_reviews/?query=${query}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        reviewsContainer.innerHTML = '';
+                        data.reviews.forEach(review => {
+                            const reviewElement = document.createElement('div');
+                            reviewElement.classList.add('review');
+                            reviewElement.innerHTML = `
+                                <h3>${review.author}</h3>
+                                <p>${review.text}</p>
+                                <p><strong>{% trans "Service:" %}</strong> ${review.service}</p>
+                                <p><strong>{% trans "Rating:" %}</strong> ${review.rating}</p>
+                            `;
+                            reviewElement.addEventListener('click', () => {
+                                document.getElementById('modal-author').innerText = review.author;
+                                document.getElementById('modal-text').innerText = review.text;
+                                document.getElementById('modal-service').innerText = review.service;
+                                document.getElementById('modal-rating').innerText = review.rating;
+                                const modalImage = document.getElementById('modal-image');
+                                if (review.image) {
+                                    modalImage.src = review.image;
+                                    modalImage.style.display = 'block';
+                                } else {
+                                    modalImage.style.display = 'none';
+                                }
+                                $('#reviewModal').modal('show');
+                            });
+                            reviewsContainer.appendChild(reviewElement);
+                        });
+                    });
+            }
+
+            document.getElementById('search-bar').addEventListener('input', (event) => {
+                const query = event.target.value;
+                if (query.length > 0) {
+                    searchReviews(query);
+                } else {
+                    loadMoreReviews(true);  // Reset and load initial reviews
+                }
+            });
+
+            window.addEventListener('scroll', handleScroll);
+
+            // Initial load
+            loadMoreReviews();
+
+            // Add event listener for logout button if it exists
+            const logoutButton = document.getElementById('logout-button');
+            if (logoutButton) {
+                logoutButton.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    fetch("{% url 'logout' %}", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        }
+                    }).then(response => {
+                        if (response.ok) {
+                            window.location.href = "{% url 'index' %}";
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

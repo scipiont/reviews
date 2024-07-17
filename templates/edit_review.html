@@ -1,0 +1,37 @@
+
+
+{% extends 'base.html' %}
+
+{% block title %}Редактировать отзыв{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Редактировать отзыв</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.service.label_tag }} {{ form.service }}
+        {{ form.topic.label_tag }} {{ form.topic }}
+        {{ form.text.label_tag }} {{ form.text }}
+        <div class="form-group">
+            <label for="id_is_anonymous">Оставить отзыв анонимно</label>
+            {{ form.is_anonymous }}
+        </div>
+        <div class="form-group">
+            <label for="id_rating">Рейтинг (1-9)</label>
+            <div class="star-rating">
+                {% for i in "987654321"|make_list %}
+                <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" {% if form.rating.value == i %}checked{% endif %}>
+                <label for="star{{ i }}" title="{{ i }} звезда"></label>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form.image.label_tag }} {{ form.image }}
+        </div>
+        <div class="form-group">
+            {{ form.video.label_tag }} {{ form.video }}
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+    </form>
+</div>
+{% endblock %}

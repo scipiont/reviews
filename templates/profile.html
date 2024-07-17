@@ -1,0 +1,65 @@
+<!-- templates/profile.html -->
+
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+{% block title %}Профиль {{ user.username }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <a href="{% url 'add_review' %}" class="btn btn-primary mt-3">{% trans "Leave review" %}</a>
+    {% if request.user == user %}
+        <a href="{% url 'edit_profile' user.username %}" class="btn btn-secondary mt-3">Редактировать профиль</a>
+    {% endif %}
+    <a href="{% url 'company_ratings' %}" class="btn btn-secondary mt-3">{% trans "Company Ratings" %}</a>
+    <h2>Профиль пользователя: {{ user.username }}</h2>
+    <p>Email: {{ user.email }}</p>
+    <p>Баланс: {{ user.profile.balance }} AnswerCoin</p>
+    <p>Рейтинг: {{ user.profile.rating }}</p>
+    <h3>You reviews</h3>
+    <ul class="list-group">
+        {% for review in reviews %}
+            <li class="list-group-item">
+                <h4>{{ review.topic }}</h4>
+                <p>{{ review.text }}</p>
+                <p><strong>Сервис:</strong> {{ review.service }}</p>
+                <p><strong>Дата:</strong> {{ review.timestamp }}</p>
+                <p><strong>Рейтинг:</strong> {{ review.rating }}</p>
+                {% if review.image %}
+                    <img src="{{ review.image.url }}" alt="Review Image" style="max-width: 100%;">
+                {% endif %}
+                {% if review.video %}
+                    <video controls style="max-width: 100%;">
+                        <source src="{{ review.video.url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                {% endif %}
+                <a href="{% url 'edit_review' review.id %}" class="btn btn-secondary">Редактировать</a>
+                <div class="trash-can" data-toggle="modal" data-target="#deleteModal{{ review.id }}">
+                    <i></i>
+                    <span class="tooltip-text">Delete review</span>
+                </div>
+            </li>
+            <div class="modal fade" id="deleteModal{{ review.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Delete review</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <a href="{% url 'delete_review' review.id %}" class="btn btn-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </ul>
+</</div>
+{% endblock %}

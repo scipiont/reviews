@@ -1,0 +1,200 @@
+<!-- templates/base.html -->
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .gradient-text {
+            background: linear-gradient(90deg, blue, red);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-animation 3s infinite;
+        }
+
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .star-rating {
+            direction: rtl; /* Указываем направление слева направо */
+            display: inline-block;
+            padding: 20px;
+        }
+
+        .star-rating input[type="radio"] {
+            display: none; /* Скрываем радио кнопки */
+        }
+
+        .star-rating label {
+            color: #bbb; /* Цвет звезды по умолчанию */
+            font-size: 24px; /* Размер звезд */
+            padding: 0;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .star-rating label:before {
+            content: "\2605"; /* Unicode символ звезды */
+            position: relative;
+            font-size: 24px;
+            color: #393939; /* Цвет звезды по умолчанию */
+          
+        }
+
+        .star-rating input[type="radio"]:checked ~ label:before,
+        .star-rating label:hover ~ label:before,
+        .star-rating label:hover:before {
+            color: #f2b600; /* Цвет звезды при наведении или выборе */
+        }
+        .trash-can {
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .trash-can:before, .trash-can:after {
+            content: "";
+            position: absolute;
+            background-color: black;
+        }
+
+        .trash-can:before {
+            top: 0;
+            left: 5px;
+            right: 5px;
+            height: 4px;
+            border-radius: 2px;
+        }
+
+        .trash-can:after {
+            top: 4px;
+            bottom: 2px;
+            left: 8px;
+            width: 4px;
+            background-color: black;
+            border-radius: 1px;
+        }
+
+        .trash-can i {
+            position: absolute;
+            top: 4px;
+            left: 0;
+            right: 0;
+            height: 16px;
+            border: 2px solid black;
+            border-top: none;
+            border-radius: 0 0 2px 2px;
+        }
+        /* .trash-can {
+            position: relative;
+            display: inline-block;
+        } */
+
+        .trash-can:hover .tooltip-text {
+            visibility: visible;
+        }
+
+        .tooltip-text {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+
+            /* Позиционирование */
+            position: absolute;
+            z-index: 1;
+            bottom: 100%;
+            left: 50%;
+            margin-left: -60px;
+        }
+        /* Add the following styles to your existing style.css file */
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, black, darkgray);
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: backgroundFade 115s infinite;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table-dark {
+    background: linear-gradient(to bottom, black, darkgray);
+}
+.user-name {
+    color: #00ffff;
+}
+
+@keyframes backgroundFade {
+    0%, 100% { background: linear-gradient(to bottom, darkgray, black, darkgray); }
+    50% { background: linear-gradient(to bottom, black, darkgray, black); }
+}
+    </style>
+</head>
+<body>
+    <header>
+        <h1><a href="/">{% trans "Reviews about companies and services" %}</a></h1>
+    </header>
+    {% if user.is_authenticated %}
+        <p><a href="{% url 'profile' user.username %}" class="user-name">{{ user.username }}</a>
+            <form class="form-format" method="post" action="{% url 'logout' %}"> 
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">{% trans "Exit" %}</button>
+            </form>
+        </p>
+    {% else %}
+        <a href="{% url 'login' %}">{% trans "Login" %}</a> |
+        <a href="{% url 'register' %}">{% trans "Register" %}</a>
+    {% endif %}
+    
+
+    {% block content %}{% endblock %}
+
+    <!-- Модальное окно -->
+    <div class="modal fade" id="authModal" tabindex="-1" role="dialog" aria-labelledby="authModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="authModalLabel">{% trans "Вход или Регистрация" %}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>{% trans "Пожалуйста, войдите в систему или зарегистрируйтесь, чтобы оставить отзыв" %}</p>
+                    <a href="{% url 'login' %}" class="btn btn-primary gradient-text">{% trans "Login" %}</a>
+                    <a href="{% url 'register' %}" class="btn btn-secondary gradient-text">{% trans "Register" %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+          $('[data-toggle="tooltip"]').tooltip(); 
+        });
+    </script>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

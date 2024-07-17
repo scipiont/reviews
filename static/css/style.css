@@ -1,0 +1,227 @@
+
+
+*,
+*:before,
+*:after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* body {
+    height: 100vh;
+    background: linear-gradient(135deg, #61d954, #2ebf75);
+} */
+
+form {
+    background-color: #202020;
+    height: 450px;
+    width: 400px;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 8px;
+    box-shadow: 0 20px 25px rgba(0, 0, 0, 0.35);
+    padding: 30px 50px;
+}
+
+form h1 {
+    text-align: center;
+    font-size: 23px;
+    color: #fff;
+}
+
+form * {
+    border: none;
+    outline: none;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+input {
+    display: block;
+    height: 2px;
+    width: 300px;
+    position: absolute;
+    background-color: #4d4d4d;
+    color: #ffffff;
+    padding: 0 15px;
+    font-weight: 300;
+    border-radius: 5px;
+    transition: 0.5s all;
+}
+
+label {
+    display: inline-block;
+    color: #e5e5e5;
+    cursor: pointer;
+    font-size: 12px;
+    position: absolute;
+    transition: 0.5s all;
+}
+#forgot {
+    color: rgb(255, 255, 255);
+    font-weight: 700;
+    position: absolute;
+    bottom: 10px;
+    z-index: 1000;
+    left: 30%
+}
+#username {
+    bottom: 305px;
+}
+
+label[for="username"] {
+    bottom: 310px;
+}
+
+#password {
+    bottom: 195px;
+}
+
+label[for="password"] {
+    bottom: 200px;
+}
+
+::placeholder {
+    color: transparent;
+}
+
+.my-style::placeholder {
+    color: #a5a5a5;
+}
+
+button {
+    width: 300px;
+    position: absolute;
+    bottom: 75px;
+    padding: 15px 0;
+    background-color: #2ebf75;
+    color: #ffffff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.opinion {
+    font-size: 18px;
+    color: rgb(255, 87, 51);
+}
+
+.star-rating {
+    direction: rtl; /* Указываем направление слева направо */
+    display: inline-block;
+    padding: 20px;
+}
+
+.star-rating input[type="radio"] {
+    display: none; /* Скрываем радио кнопки */
+}
+
+.star-rating label {
+    color: #bbb; /* Цвет звезды по умолчанию */
+    font-size: 24px; /* Размер звезд */
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.star-rating label:before {
+    content: "\2605"; /* Unicode символ звезды */
+    position: relative;
+    font-size: 24px;
+    color: #ddd; /* Цвет звезды по умолчанию */
+}
+
+.star-rating input[type="radio"]:checked ~ label:before,
+.star-rating label:hover ~ label:before,
+.star-rating label:hover:before {
+    color: #f2b600; /* Цвет звезды при наведении или выборе */
+}
+
+.trash-can {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    display: inline-block;
+}
+
+.trash-can:before, .trash-can:after {
+    content: "";
+    position: absolute;
+    background-color: black;
+}
+
+.trash-can:before {
+    top: 0;
+    left: 5px;
+    right: 5px;
+    height: 4px;
+    border-radius: 2px;
+}
+
+.trash-can:after {
+    top: 4px;
+    bottom: 2px;
+    left: 8px;
+    width: 4px;
+    background-color: black;
+    border-radius: 1px;
+}
+
+.trash-can i {
+    position: absolute;
+    top: 4px;
+    left: 0;
+    right: 0;
+    height: 16px;
+    border: 2px solid black;
+    border-top: none;
+    border-radius: 0 0 2px 2px;
+}
+/* Add the following styles to your existing style.css file */
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, black, darkgray);
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: backgroundFade 115s infinite;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table-dark {
+    background: linear-gradient(to bottom, black, darkgray);
+}
+
+@keyframes backgroundFade {
+    0%, 100% { background: linear-gradient(to bottom, darkgray, black, darkgray); }
+    50% { background: linear-gradient(to bottom, black, darkgray, black); }
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
