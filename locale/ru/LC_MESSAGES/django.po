@@ -78,3 +78,9 @@ msgstr "Введите имя пользователя"
 
 msgid "Exit"
 msgstr "Выход"
+
+msgid "Edit profile"
+msgstr "Редактировать профиль"
+
+msgid "Edit"
+msgstr "Редактировать"
