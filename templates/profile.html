@@ -9,7 +9,7 @@
 <div class="container mt-5">
     <a href="{% url 'add_review' %}" class="btn btn-primary mt-3">{% trans "Leave review" %}</a>
     {% if request.user == user %}
-        <a href="{% url 'edit_profile' user.username %}" class="btn btn-secondary mt-3">Редактировать профиль</a>
+        <a href="{% url 'edit_profile' user.username %}" class="btn btn-secondary mt-3">{% trans "Edit profile" %}</a>
     {% endif %}
     <a href="{% url 'company_ratings' %}" class="btn btn-secondary mt-3">{% trans "Company Ratings" %}</a>
     <h2>Профиль пользователя: {{ user.username }}</h2>
@@ -34,7 +34,7 @@
                         Your browser does not support the video tag.
                     </video>
                 {% endif %}
-                <a href="{% url 'edit_review' review.id %}" class="btn btn-secondary">Редактировать</a>
+                <a href="{% url 'edit_review' review.id %}" class="btn btn-secondary">{% trans "Edit" %}</a>
                 <div class="trash-can" data-toggle="modal" data-target="#deleteModal{{ review.id }}">
                     <i></i>
                     <span class="tooltip-text">Delete review</span>
@@ -61,5 +61,5 @@
             </div>
         {% endfor %}
     </ul>
-</</div>
+</div>
 {% endblock %}
