@@ -5,6 +5,103 @@
 {% block title %}Редактировать отзыв{% endblock %}
 
 {% block content %}
+<style>
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    form .form-group {
+        margin-bottom: 15px;
+    }
+    
+    form label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    
+    form input[type="text"],
+    form input[type="file"],
+    form textarea {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 16px;
+        transition: box-shadow 0.3s;
+        box-shadow: 0 4px 6px rgba(255, 0, 0, 0.3);
+    }
+    
+    form input[type="text"]:focus,
+    form input[type="file"]:focus,
+    form textarea:focus {
+        box-shadow: 0 4px 8px rgba(255, 0, 0, 0.5);
+        outline: none;
+    }
+    
+    .star-rating {
+        display: flex;
+        justify-content: flex-end;
+        direction: rtl;
+    }
+    
+    .star-rating input[type="radio"] {
+        display: none;
+    }
+    
+    .star-rating label {
+        font-size: 24px;
+        color: #bbb;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+    
+    .star-rating label:before {
+        content: "\2605";
+        color: #393939;
+    }
+    
+    .star-rating input[type="radio"]:checked ~ label:before,
+    .star-rating label:hover ~ label:before,
+    .star-rating label:hover:before {
+        color: #f2b600;
+    }
+    
+    .btn {
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 18px;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+    
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+    }
+    
+    .alert {
+        margin-bottom: 20px;
+    }
+    </style>
 <div class="container mt-5">
     <h2>Редактировать отзыв</h2>
     <form method="post" enctype="multipart/form-data">
