@@ -1,4 +1,4 @@
-import os
+﻿import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -12,6 +12,7 @@ SECRET_KEY = 'your_secret_key'  # Замените на ваш секретны�
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+#ALLOWED_HOSTS = ['meda.pw','www.meda.pw']
 ALLOWED_HOSTS = []
 
 
