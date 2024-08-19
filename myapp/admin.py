@@ -13,15 +13,7 @@ from reportlab.pdfgen import canvas
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 from reportlab.lib.utils import simpleSplit
-# Получение пути к шрифту в папке static
-# Получение абсолютного пути к шрифту в папке static
-# font_path = finders.find('fonts/DejaVuSans.ttf')
 
-# if font_path:
-#     pdfmetrics.registerFont(TTFont('DejaVuSans', font_path))
-# else:
-#     raise FileNotFoundError("Font file 'DejaVuSans.ttf' not found in static files.")
-# Получение абсолютного пути к шрифту в папке static
 font_path = finders.find('fonts/FreeSerif.ttf')
 
 if font_path:
@@ -129,12 +121,12 @@ def export_as_pdf(modeladmin, request, queryset):
         for field_name in modeladmin.list_display:
             value = getattr(obj, field_name, "")
             if isinstance(value, str):
-                value = value.encode('utf-8').decode('utf-8')  # Убедитесь, что строка в формате UTF-8
+                value = value.encode('utf-8').decode('utf-8')  
             p.drawString(30, y, f"{field_name}: {value}")
             y -= 15
             if y < 40:
                 p.showPage()
-                p.setFont("FreeSerif", 12)  # Установите шрифт для новой страницы
+                p.setFont("FreeSerif", 12)  
                 y = height - 30
 
     p.save()
