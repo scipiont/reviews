@@ -293,7 +293,31 @@
                 width: calc(50% - 20px);
             }
         }
+      
+        @media (max-width: 768px) {
+            .sidebar {
+                position: static; /* Reset positioning */
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                /*margin-bottom: 20px;*/
+                margin-top: 200px; 
+                z-index: 1000; 
+            }
 
+            .header {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .search-bar-container {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+            }
+        }
         @media (max-width: 480px) {
             .review {
                 width: calc(100% - 20px);
@@ -305,11 +329,7 @@
 <body>
     <!-- templates/index.html -->
 
-    <div class="header">
-        <div class="logo-container">
-            <div class="logo-reflection">R</div>
-            <div class="logo">R</div> 
-        </div>
+    
         <div class="sidebar">
             <h2>{% trans "Reviews" %}</h2>
             {% if user.is_authenticated %}
@@ -337,7 +357,12 @@
                 <div class="text">{% trans "Company Ratings" %}</div>
             </a>
         </div>
-    </div>
+        <div class="header">
+            <div class="logo-container">
+                <div class="logo-reflection">R</div>
+                <div class="logo">R</div> 
+            </div>
+        </div>
     <div class="opinion">{% trans "Check service or company:" %}</div>
     <div class="search-bar-container">
         <input type="text" class="search-bar" placeholder="{% trans "Search services..." %}" id="search-bar"> 
